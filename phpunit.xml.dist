@@ -31,9 +31,11 @@
     <testsuite name="Nyholm">
       <directory>./vendor/nyholm/psr7/tests/Integration/</directory>
     </testsuite>
-
     <testsuite name="HttpSoft">
         <directory>./vendor/httpsoft/http-message/tests/Integration/</directory>
+    </testsuite>
+    <testsuite name="Fatfree">
+        <directory>./vendor/f3-factory/fatfree-psr7/tests/Integration/</directory>
     </testsuite>
   </testsuites>
 </phpunit>
