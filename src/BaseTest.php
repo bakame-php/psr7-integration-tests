@@ -2,6 +2,7 @@
 
 namespace Http\Psr7Test;
 
+use F3\Http\Factory\Psr17Factory as FatfreeFactory;
 use GuzzleHttp\Psr7\Stream as GuzzleStream;
 use GuzzleHttp\Psr7\UploadedFile as GuzzleUploadedFile;
 use GuzzleHttp\Psr7\Uri as GuzzleUri;
@@ -84,6 +85,10 @@ abstract class BaseTest extends TestCase
             return new RingCentralUri($uri);
         }
 
+        if (class_exists(FatfreeFactory::class)) {
+            return (new FatfreeFactory())->createUri($uri);
+        }
+
         throw new \RuntimeException('Could not create URI. Check your config');
     }
 
@@ -122,6 +127,9 @@ abstract class BaseTest extends TestCase
         }
         if (class_exists(SlimStreamFactory::class)) {
             $factory = new SlimStreamFactory();
+        }
+        if (class_exists(FatfreeFactory::class)) {
+            $factory = new FatfreeFactory();
         }
         if ($factory) {
             if (is_string($data)) {
@@ -174,6 +182,12 @@ abstract class BaseTest extends TestCase
             $stream = $this->buildStream($data);
 
             return (new SlimUploadedFileFactory())->createUploadedFile($stream);
+        }
+
+        if (class_exists(FatfreeFactory::class)) {
+            $stream = $this->buildStream($data);
+
+            return (new FatfreeFactory())->createUploadedFile($stream);
         }
 
         throw new \RuntimeException('Could not create Stream. Check your config');
